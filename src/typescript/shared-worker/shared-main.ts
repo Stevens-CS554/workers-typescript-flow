@@ -10,7 +10,6 @@ interface IResponseMessageData {
   const messageList = $("#message-list");
 
   const sharedWorker = new SharedWorker("/assets/shared-worker.js");
-  sharedWorker.port.start();
 
   messageForm.on("submit", function(e) {
     e.preventDefault();
@@ -26,4 +25,6 @@ interface IResponseMessageData {
     const newMessage = $(`<li>${messageData.message}</li>`);
     messageList.append(newMessage);
   };
+
+  sharedWorker.port.start();
 })();

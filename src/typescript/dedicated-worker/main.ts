@@ -9,8 +9,9 @@ interface IPerson {
 }
 
 interface IResponseMessageData {
-  matches: IPerson[];
+  matches: Array<IPerson>;
 }
+
 (() => {
   const searchForm = $("#search-form");
   const searchQuery = $("#search-query");

@@ -40,8 +40,6 @@ importScripts("/lib/axios.min.js");
       return false;
     });
 
-    console.log("GOT RESULT", matches.length);
-
     this.postMessage({ matches: matches });
   };
 })();

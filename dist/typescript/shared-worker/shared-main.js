@@ -5,7 +5,6 @@
     var messageInput = $("#message");
     var messageList = $("#message-list");
     var sharedWorker = new SharedWorker("/assets/shared-worker.js");
-    sharedWorker.port.start();
     messageForm.on("submit", function (e) {
         e.preventDefault();
         var message = messageInput.val();
@@ -18,5 +17,6 @@
         var newMessage = $("<li>" + messageData.message + "</li>");
         messageList.append(newMessage);
     };
+    sharedWorker.port.start();
 })();
 //# sourceMappingURL=shared-main.js.map
