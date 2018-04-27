@@ -11,32 +11,33 @@ interface IPerson {
 interface IResponseMessageData {
   matches: IPerson[];
 }
+(() => {
+  const searchForm = $("#search-form");
+  const searchQuery = $("#search-query");
+  const answerList = $("#answer-list");
 
-const searchForm = $("#search-form");
-const searchQuery = $("#search-query");
-const answerList = $("#answer-list");
+  const dedicatedWorker = new Worker("/assets/flow/dedicated-worker/worker.js");
 
-const dedicatedWorker = new Worker("/assets/flow/dedicated-worker/worker.js");
+  searchForm.on("submit", function(e) {
+    e.preventDefault();
 
-searchForm.on("submit", function(e) {
-  e.preventDefault();
+    const query = searchQuery.val();
+    if (!query) return;
 
-  const query = searchQuery.val();
-  if (!query) return;
+    dedicatedWorker.postMessage({ query: query });
+  });
 
-  dedicatedWorker.postMessage({ query: query });
-});
+  dedicatedWorker.onmessage = message => {
+    const results: IResponseMessageData = message.data;
 
-dedicatedWorker.onmessage = message => {
-  const results: IResponseMessageData = message.data;
-
-  const newListItems = results.matches
-    .map(
-      person =>
-        `<li>${person.first_name} ${person.last_name}; ${person.email}</li>`
-    )
-    .join("");
-  const newListElements = $(newListItems);
-  answerList.empty();
-  answerList.append(newListElements);
-};
+    const newListItems = results.matches
+      .map(
+        person =>
+          `<li>${person.first_name} ${person.last_name}; ${person.email}</li>`
+      )
+      .join("");
+    const newListElements = $(newListItems);
+    answerList.empty();
+    answerList.append(newListElements);
+  };
+})();
