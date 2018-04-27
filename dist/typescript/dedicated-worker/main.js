@@ -9,7 +9,7 @@
         var query = searchQuery.val();
         if (!query)
             return;
-        dedicatedWorker.postMessage({ query: query });
+            dedicatedWorker.postMessage({ query: query });
     });
     dedicatedWorker.onmessage = function (message) {
         var results = message.data;
